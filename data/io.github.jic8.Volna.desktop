@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Volna
+Name[ru]=Волна
+Comment=Listen to music with a waveform view
+Comment[ru]=Слушайте музыку с наглядной волной
+Exec=volna %U
+Icon=io.github.jic8.Volna
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;Player;GTK;
+Keywords=music;audio;player;playlist;waveform;
+Keywords[ru]=музыка;аудио;плеер;плейлист;волна;
+MimeType=audio/mpeg;audio/flac;audio/x-flac;audio/ogg;audio/x-vorbis+ogg;audio/opus;audio/x-opus+ogg;audio/mp4;audio/x-m4a;audio/aac;audio/wav;audio/x-wav;audio/x-ms-wma;audio/x-ape;audio/x-wavpack;audio/x-matroska;audio/x-aiff;audio/x-mpegurl;
+StartupNotify=true

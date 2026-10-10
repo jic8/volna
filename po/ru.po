@@ -1,0 +1,181 @@
+# Russian translations for volna package
+# Английские переводы для пакета volna.
+# Copyright (C) 2026 THE volna'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the volna package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: volna\n"
+"Report-Msgid-Bugs-To: https://github.com/jic8/volna/issues\n"
+"POT-Creation-Date: 2026-10-10 21:40+0300\n"
+"PO-Revision-Date: 2026-10-10 21:40+0300\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/playlist.rs:59 src/window.rs:82
+msgid "Playlist"
+msgstr "Плейлист"
+
+#: src/playlist.rs:62 src/window.rs:65
+msgid "Add Files…"
+msgstr "Добавить файлы…"
+
+#: src/playlist.rs:63 src/window.rs:66
+msgid "Add Folder…"
+msgstr "Добавить папку…"
+
+#: src/playlist.rs:67
+msgid "Add"
+msgstr "Добавить"
+
+#: src/playlist.rs:71
+msgid "Open Playlist…"
+msgstr "Открыть плейлист…"
+
+#: src/playlist.rs:72 src/window.rs:69
+msgid "Save Playlist…"
+msgstr "Сохранить плейлист…"
+
+#: src/playlist.rs:73
+msgid "Clear"
+msgstr "Очистить"
+
+#: src/playlist.rs:77
+msgid "Playlist Menu"
+msgstr "Меню плейлиста"
+
+#: src/playlist.rs:92
+msgid "Playlist Is Empty"
+msgstr "Плейлист пуст"
+
+#: src/playlist.rs:93
+msgid "Add files or drop them into the window"
+msgstr "Добавьте файлы или перетащите их в окно"
+
+#: src/playlist.rs:279
+msgid "Remove From Playlist"
+msgstr "Убрать из плейлиста"
+
+#: src/playlist.rs:344
+#, rust-format
+msgid "{} track"
+msgid_plural "{} tracks"
+msgstr[0] "{} трек"
+msgstr[1] "{} трека"
+msgstr[2] "{} треков"
+
+#: src/window.rs:52 src/main.rs:22
+msgid "Volna"
+msgstr "Волна"
+
+#: src/window.rs:61
+msgid "Open Files…"
+msgstr "Открыть файлы…"
+
+#: src/window.rs:62
+msgid "Open Folder…"
+msgstr "Открыть папку…"
+
+#: src/window.rs:72
+msgid "_About Volna"
+msgstr "_О приложении «Волна»"
+
+#: src/window.rs:77
+msgid "Main Menu"
+msgstr "Главное меню"
+
+#: src/window.rs:96 src/window.rs:406
+msgid "Open Files"
+msgstr "Открыть файлы"
+
+#: src/window.rs:103
+msgid "Open Folder"
+msgstr "Открыть папку"
+
+#: src/window.rs:110
+msgid "No Tracks"
+msgstr "Нет треков"
+
+#: src/window.rs:111
+msgid "Open files or a folder, or drop them into the window"
+msgstr "Откройте файлы или папку, либо перетащите их в окно"
+
+#: src/window.rs:133
+msgid "Playback Speed"
+msgstr "Скорость воспроизведения"
+
+#: src/window.rs:138
+msgid "Previous Track"
+msgstr "Предыдущий трек"
+
+#: src/window.rs:139
+msgid "Back 10 Seconds"
+msgstr "Назад на 10 секунд"
+
+#: src/window.rs:141 src/window.rs:580
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: src/window.rs:143
+msgid "Forward 10 Seconds"
+msgstr "Вперёд на 10 секунд"
+
+#: src/window.rs:145
+msgid "Next Track"
+msgstr "Следующий трек"
+
+#: src/window.rs:160
+msgid "Volume"
+msgstr "Громкость"
+
+#: src/window.rs:283
+msgid "No audio files found"
+msgstr "Аудиофайлы не найдены"
+
+#: src/window.rs:389
+msgid "Audio and Playlists"
+msgstr "Аудио и плейлисты"
+
+#: src/window.rs:404
+msgid "Add Files"
+msgstr "Добавить файлы"
+
+#: src/window.rs:425
+msgid "Choose a Music Folder"
+msgstr "Выберите папку с музыкой"
+
+#: src/window.rs:439
+msgid "Save Playlist"
+msgstr "Сохранить плейлист"
+
+#: src/window.rs:440
+msgid "Playlist.m3u"
+msgstr "Плейлист.m3u"
+
+#: src/window.rs:450
+msgid "Playlist saved"
+msgstr "Плейлист сохранён"
+
+#: src/window.rs:451
+#, rust-format
+msgid "Could not save playlist: {}"
+msgstr "Не удалось сохранить плейлист: {}"
+
+#: src/window.rs:452
+msgid "Playlists can only be saved to a local folder"
+msgstr "Плейлист можно сохранить только в локальную папку"
+
+#: src/window.rs:578
+msgid "Pause"
+msgstr "Пауза"
+
+#: src/main.rs:82
+msgid "translator-credits"
+msgstr "jic8"

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Volna — music player for Linux</title>
+  <meta name="description" content="Volna is a simple music player for Linux that shows each track as a waveform.">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Volna">
+  <meta property="og:description" content="A simple music player for Linux with a waveform view.">
+  <meta property="og:image" content="https://jic8.github.io/volna/screenshot.png">
+  <style>
+    :root {
+      --bg: #1d1a23;
+      --bg-raised: #27232f;
+      --fg: #f2f0f5;
+      --fg-dim: #a8a2b3;
+      --border: #3a3544;
+      --accent: #dc8add;
+      --accent-strong: #c061cb;
+      --radius: 14px;
+      color-scheme: dark light;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #faf8fb;
+        --bg-raised: #ffffff;
+        --fg: #241f31;
+        --fg-dim: #5e5868;
+        --border: #e4dfe8;
+        --accent: #a347ba;
+        --accent-strong: #8f3aa6;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 17px/1.6 system-ui, "Cantarell", "Inter", sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    a { color: var(--accent); }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    header.top {
+      display: flex; justify-content: flex-end; padding: 16px 0;
+    }
+    .lang {
+      display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden;
+    }
+    .lang button {
+      background: none; border: 0; color: var(--fg-dim); font: inherit; font-size: 14px;
+      padding: 4px 12px; cursor: pointer;
+    }
+    .lang button[aria-pressed="true"] { background: var(--bg-raised); color: var(--fg); }
+
+    .hero { text-align: center; padding: 24px 0 48px; }
+    .hero img.icon { width: 128px; height: 128px; }
+    .hero h1 { font-size: 48px; line-height: 1.1; margin: 16px 0 8px; letter-spacing: -0.02em; }
+    .hero p.lead { font-size: 20px; color: var(--fg-dim); margin: 0 auto 28px; max-width: 34ch; }
+    .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 999px; font-weight: 600; text-decoration: none;
+      border: 1px solid var(--border); color: var(--fg); background: var(--bg-raised);
+    }
+    .btn.primary {
+      border-color: transparent; color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+    .shot { text-align: center; margin: 0 0 72px; }
+    .shot img {
+      max-width: 100%; height: auto; border-radius: var(--radius);
+      filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.35));
+    }
+
+    h2 { font-size: 28px; margin: 0 0 24px; letter-spacing: -0.01em; }
+    .features {
+      display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      margin-bottom: 72px;
+    }
+    .card {
+      background: var(--bg-raised); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .card .bars { display: flex; gap: 3px; align-items: center; height: 24px; margin-bottom: 12px; }
+    .card .bars i { display: block; width: 3px; border-radius: 2px; background: var(--accent); }
+    .card h3 { margin: 0 0 6px; font-size: 18px; }
+    .card p { margin: 0; color: var(--fg-dim); font-size: 15px; }
+
+    .install { margin-bottom: 72px; }
+    .install p { color: var(--fg-dim); }
+    pre {
+      background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px 20px; overflow-x: auto; font-size: 15px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 24px 0 40px;
+      color: var(--fg-dim); font-size: 14px;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <img class="icon" src="icon.svg" alt="">
+      <h1 data-i18n="name">Volna</h1>
+      <p class="lead" data-i18n="lead">A simple music player for Linux that shows every track as a waveform.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://flathub.org/apps/io.github.jic8.Volna">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7.25 1h1.5v8.19l2.72-2.72 1.06 1.06L8 12.06 3.47 7.53l1.06-1.06 2.72 2.72zM2 13.5h12V15H2z"/></svg>
+          <span data-i18n="get">Get it on Flathub</span>
+        </a>
+        <a class="btn" href="https://github.com/jic8/volna">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.22 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0"/></svg>
+          <span data-i18n="source">Source code</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="shot">
+      <img src="screenshot.png" width="690" height="510" alt="Volna playing a track with the playlist open" data-i18n-alt="shotAlt">
+    </section>
+
+    <section>
+      <h2 data-i18n="featuresTitle">Features</h2>
+      <div class="features">
+        <div class="card">
+          <div class="bars"><i style="height:40%"></i><i style="height:80%"></i><i style="height:55%"></i><i style="height:100%"></i><i style="height:65%"></i><i style="height:35%"></i></div>
+          <h3 data-i18n="f1t">Waveform seeking</h3>
+          <p data-i18n="f1d">See the shape of the track and click anywhere on it to jump there.</p>
+        </div>
+        <div class="card">
+          <div class="bars"><i style="height:60%"></i><i style="height:60%"></i><i style="height:60%"></i><i style="height:60%"></i></div>
+          <h3 data-i18n="f2t">Playlists</h3>
+          <p data-i18n="f2d">Open several files or whole folders, save and load M3U playlists.</p>
+        </div>
+        <div class="card">
+          <div class="bars"><i style="height:30%"></i><i style="height:45%"></i><i style="height:60%"></i><i style="height:75%"></i><i style="height:90%"></i></div>
+          <h3 data-i18n="f3t">Playback speed</h3>
+          <p data-i18n="f3d">From 0.5× to 2× without changing the pitch — handy for podcasts and lectures.</p>
+        </div>
+        <div class="card">
+          <div class="bars"><i style="height:70%"></i><i style="height:40%"></i><i style="height:85%"></i><i style="height:50%"></i><i style="height:70%"></i></div>
+          <h3 data-i18n="f4t">Picks up where you left off</h3>
+          <p data-i18n="f4d">Your queue and current track are restored on the next launch.</p>
+        </div>
+        <div class="card">
+          <div class="bars"><i style="height:90%"></i><i style="height:90%"></i><i style="height:0"></i><i style="height:90%"></i><i style="height:90%"></i></div>
+          <h3 data-i18n="f5t">Media keys</h3>
+          <p data-i18n="f5d">Pause and switch tracks from the keyboard, the taskbar or desktop widgets.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="install">
+      <h2 data-i18n="installTitle">Install</h2>
+      <p data-i18n="installText">Volna is distributed through Flathub and works on any Linux distribution with Flatpak:</p>
+      <pre><code>flatpak install flathub io.github.jic8.Volna</code></pre>
+    </section>
+
+    <footer>
+      <span>© 2026 jic8 · <span data-i18n="license">Free software under GPL-3.0-or-later</span></span>
+      <span><a href="https://github.com/jic8/volna/issues" data-i18n="bugs">Report a bug</a></span>
+    </footer>
+  </div>
+
+  <script>
+    const strings = {
+      ru: {
+        name: "Волна",
+        lead: "Простой музыкальный плеер для Linux, который показывает каждый трек в виде волны.",
+        get: "Установить из Flathub",
+        source: "Исходный код",
+        shotAlt: "Волна воспроизводит трек, открыт плейлист",
+        featuresTitle: "Возможности",
+        f1t: "Перемотка по волне",
+        f1d: "Видно, как устроен трек, — кликните в любое место, чтобы перейти туда.",
+        f2t: "Плейлисты",
+        f2d: "Открывайте несколько файлов или целые папки, сохраняйте и загружайте M3U.",
+        f3t: "Скорость воспроизведения",
+        f3d: "От 0.5× до 2× без изменения тона — удобно для подкастов и лекций.",
+        f4t: "Продолжает с того же места",
+        f4d: "Очередь и текущий трек восстанавливаются при следующем запуске.",
+        f5t: "Медиаклавиши",
+        f5d: "Пауза и переключение треков с клавиатуры, из панели задач и виджетов рабочего стола.",
+        installTitle: "Установка",
+        installText: "Волна распространяется через Flathub и работает в любом дистрибутиве Linux с Flatpak:",
+        license: "Свободное ПО под лицензией GPL-3.0-or-later",
+        bugs: "Сообщить об ошибке",
+      },
+    };
+
+    const defaults = {};
+    document.querySelectorAll("[data-i18n]").forEach((el) => (defaults[el.dataset.i18n] = el.textContent));
+    document.querySelectorAll("[data-i18n-alt]").forEach((el) => (defaults[el.dataset.i18nAlt] = el.alt));
+    const defaultTitle = document.title;
+
+    function setLang(lang) {
+      const table = strings[lang] || {};
+      const t = (key) => table[key] ?? defaults[key];
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-i18n]").forEach((el) => (el.textContent = t(el.dataset.i18n)));
+      document.querySelectorAll("[data-i18n-alt]").forEach((el) => (el.alt = t(el.dataset.i18nAlt)));
+      document.title = lang === "ru" ? "Волна — музыкальный плеер для Linux" : defaultTitle;
+      document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+      try { localStorage.setItem("lang", lang); } catch {}
+    }
+
+    document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+    let saved = null;
+    try { saved = localStorage.getItem("lang"); } catch {}
+    setLang(saved || (navigator.language.startsWith("ru") ? "ru" : "en"));
+  </script>
+</body>
+</html>

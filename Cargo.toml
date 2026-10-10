@@ -1,0 +1,19 @@
+[package]
+name = "volna"
+version = "0.1.0"
+edition = "2024"
+description = "Music player with a waveform view"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/jic8/volna"
+
+[dependencies]
+gtk = { package = "gtk4", version = "0.11", features = ["v4_14"] }
+adw = { package = "libadwaita", version = "0.9", features = ["v1_6"] }
+gst = { package = "gstreamer", version = "0.25" }
+gst-app = { package = "gstreamer-app", version = "0.25" }
+gst-pbutils = { package = "gstreamer-pbutils", version = "0.25" }
+async-channel = "2"
+gettext-rs = { version = "0.8", features = ["gettext-system"] }
+
+[build-dependencies]
+glib-build-tools = "0.22"

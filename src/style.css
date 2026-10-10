@@ -1,0 +1,27 @@
+.play-button {
+  min-width: 56px;
+  min-height: 56px;
+}
+
+.play-button image {
+  -gtk-icon-size: 32px;
+}
+
+.skip-button image {
+  -gtk-icon-size: 20px;
+}
+
+.current-track .track-title,
+.current-track .track-indicator {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.remove-button {
+  opacity: 0;
+}
+
+row:hover .remove-button,
+row:focus-within .remove-button {
+  opacity: 1;
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 jic8 -->
+<component type="desktop-application">
+  <id>io.github.jic8.Volna</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>Volna</name>
+  <name xml:lang="ru">Волна</name>
+  <summary>Listen to music with a waveform view</summary>
+  <summary xml:lang="ru">Слушайте музыку с наглядной волной</summary>
+
+  <developer id="io.github.jic8">
+    <name>jic8</name>
+  </developer>
+
+  <description>
+    <p>
+      Volna is a simple music player that shows each track as a waveform.
+      Click or drag anywhere on the waveform to jump to that moment.
+    </p>
+    <ul>
+      <li>Playlists: open several files or whole folders, save and load M3U</li>
+      <li>Playback speed from 0.5× to 2× without changing pitch</li>
+      <li>Skip 10 seconds back or forward</li>
+      <li>Remembers your queue between launches</li>
+      <li>Media keys and desktop controls via MPRIS</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">io.github.jic8.Volna.desktop</launchable>
+  <translation type="gettext">volna</translation>
+
+  <url type="homepage">https://jic8.github.io/volna/</url>
+  <url type="bugtracker">https://github.com/jic8/volna/issues</url>
+  <url type="vcs-browser">https://github.com/jic8/volna</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/jic8/volna/main/data/screenshots/player.png</image>
+      <caption>Playing a track with the playlist open</caption>
+    </screenshot>
+  </screenshots>
+
+  <content_rating type="oars-1.1"/>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#f2d4f3</color>
+    <color type="primary" scheme_preference="dark">#4a2a52</color>
+  </branding>
+
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+  </supports>
+
+  <provides>
+    <binary>volna</binary>
+  </provides>
+
+  <releases>
+    <release version="0.1.0" date="2026-10-10">
+      <description>
+        <p>First release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

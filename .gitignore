@@ -1,0 +1,7 @@
+target/
+.flatpak-builder/
+build-dir/
+repo/
+*.flatpak
+mackup.png
+ToDO/
