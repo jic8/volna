@@ -43,7 +43,7 @@
           "type": "git",
           "url": "https://github.com/jic8/volna.git",
           "tag": "v0.1.0",
-          "commit": "caedff6cc27ae86346481682cd27ab5f79be3e2d"
+          "commit": "befa22c95342e45cafe6e6f3142c1c58790afb01"
         },
         "cargo-sources.json"
       ]
