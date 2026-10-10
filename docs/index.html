@@ -118,9 +118,9 @@
       <h1 data-i18n="name">Volna</h1>
       <p class="lead" data-i18n="lead">A simple music player for Linux that shows every track as a waveform.</p>
       <div class="actions">
-        <a class="btn primary" href="https://flathub.org/apps/io.github.jic8.Volna">
+        <a class="btn primary" href="volna.flatpakref">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7.25 1h1.5v8.19l2.72-2.72 1.06 1.06L8 12.06 3.47 7.53l1.06-1.06 2.72 2.72zM2 13.5h12V15H2z"/></svg>
-          <span data-i18n="get">Get it on Flathub</span>
+          <span data-i18n="get">Download for Linux</span>
         </a>
         <a class="btn" href="https://github.com/jic8/volna">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.22 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0"/></svg>
@@ -166,8 +166,9 @@
 
     <section class="install">
       <h2 data-i18n="installTitle">Install</h2>
-      <p data-i18n="installText">Volna is distributed through Flathub and works on any Linux distribution with Flatpak:</p>
-      <pre><code>flatpak install flathub io.github.jic8.Volna</code></pre>
+      <p data-i18n="installText">Volna works on any Linux distribution with Flatpak. Open the downloaded file in your software center, or run:</p>
+      <pre><code>flatpak install https://jic8.github.io/volna/volna.flatpakref</code></pre>
+      <p><span data-i18n="bundleText">Updates arrive through the usual</span> <code>flatpak update</code>. <a href="https://github.com/jic8/volna/releases/latest/download/Volna.flatpak" data-i18n="bundle">Offline bundle (.flatpak)</a></p>
     </section>
 
     <footer>
@@ -181,7 +182,7 @@
       ru: {
         name: "Волна",
         lead: "Простой музыкальный плеер для Linux, который показывает каждый трек в виде волны.",
-        get: "Установить из Flathub",
+        get: "Скачать для Linux",
         source: "Исходный код",
         shotAlt: "Волна воспроизводит трек, открыт плейлист",
         featuresTitle: "Возможности",
@@ -196,7 +197,9 @@
         f5t: "Медиаклавиши",
         f5d: "Пауза и переключение треков с клавиатуры, из панели задач и виджетов рабочего стола.",
         installTitle: "Установка",
-        installText: "Волна распространяется через Flathub и работает в любом дистрибутиве Linux с Flatpak:",
+        installText: "Волна работает в любом дистрибутиве Linux с Flatpak. Откройте скачанный файл в центре приложений или выполните:",
+        bundleText: "Обновления приходят через обычный",
+        bundle: "Офлайн-пакет (.flatpak)",
         license: "Свободное ПО под лицензией GPL-3.0-or-later",
         bugs: "Сообщить об ошибке",
       },
