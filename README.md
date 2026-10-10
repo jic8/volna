@@ -1,54 +1,84 @@
-# Volna
+# Volna 🌊
 
-Простой музыкальный плеер для Linux с отображением трека в виде волны.
-GTK4 + libadwaita + GStreamer, написан на Rust.
+A simple audio player for Linux that shows every track as a waveform.
+Built with **Rust**, **GTK4**, **libadwaita** and **GStreamer**.
 
-Сайт: https://jic8.github.io/volna/
+🌐 **Website:** [jic8.github.io/volna](https://jic8.github.io/volna/)
 
 ![Volna](data/screenshots/player.png)
 
-- Плейлисты: несколько файлов, папки, сохранение и загрузка M3U
-- Перемотка кликом по волне, ±10 секунд
-- Скорость 0.5×–2× без изменения тона
-- Очередь восстанавливается при следующем запуске
-- Управление из панели задач, виджетов и медиаклавишами (MPRIS)
+---
 
-## Сборка
+## Features
 
-```sh
-cargo run --release
-```
+*   **Waveform view:** click anywhere on the waveform to seek; ±10 seconds from the keyboard.
+*   **Playlists:** open individual files or whole folders, save and load M3U playlists.
+*   **Playback speed:** 0.5× to 2× without changing the pitch.
+*   **Session restore:** the playback queue is restored on the next launch.
+*   **GNOME integration:** follows the system dark/light style.
+*   **MPRIS:** control from system media widgets and hardware media keys.
 
-Нужны GTK 4.14+, libadwaita 1.6+ и GStreamer 1.24+ с плагинами base/good.
+---
+
+## Installation
 
 ### Flatpak
 
-```sh
+```bash
+flatpak install https://jic8.github.io/volna/volna.flatpakref
+```
+
+### Building from source
+
+Requires GTK 4.14+, libadwaita 1.6+ and GStreamer 1.24+ with base/good plugins.
+
+```bash
+cargo run --release
+```
+
+### Local Flatpak build
+
+```bash
 flatpak run org.flatpak.Builder --user --install-deps-from=flathub \
-    --force-clean --install build-dir build-aux/io.github.jic8.Volna.json
+  --force-clean --install build-dir build-aux/io.github.jic8.Volna.json
+
 flatpak run io.github.jic8.Volna
 ```
 
-После изменения зависимостей пересоздайте `build-aux/cargo-sources.json`
-с помощью [flatpak-cargo-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo).
+*Note: after changing dependencies, regenerate `build-aux/cargo-sources.json` with
+[flatpak-cargo-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo).*
 
-## Переводы
+---
 
-Исходные строки — на английском, переводы лежат в `po/`. Обновить шаблон и русский перевод:
+## Translations
 
-```sh
+Source strings are in English; translations live in `po/` and are managed with gettext.
+
+To update the template and existing translations:
+
+```bash
 xgettext --language=Rust --from-code=UTF-8 --keyword=gettext --keyword=ngettext:1,2 \
-    --files-from=po/POTFILES -o po/volna.pot
+  --files-from=po/POTFILES -o po/volna.pot
+
 msgmerge --update po/ru.po po/volna.pot
 ```
 
-Новый язык: `msginit -i po/volna.pot -l <код>`, затем добавить код в `po/LINGUAS`.
+To add a new language:
 
-## Сайт
+```bash
+msginit -i po/volna.pot -l <lang_code>
+```
 
-Страница проекта лежит в `docs/` и публикуется через GitHub Pages
-(Settings → Pages → Deploy from a branch → `main` / `docs`).
+Then append the language code to `po/LINGUAS`.
 
-## Лицензия
+---
+
+## Website
+
+The project page lives in `docs/` and is published via GitHub Pages.
+
+---
+
+## License
 
 GPL-3.0-or-later
