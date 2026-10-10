@@ -56,7 +56,7 @@ impl Window {
         let window = adw::ApplicationWindow::builder()
             .application(app)
             .title(gettext("Volna"))
-            .default_width(640)
+            .default_width(820)
             .default_height(460)
             .build();
 
@@ -336,7 +336,8 @@ impl Window {
                 this.clear_playlist();
             }
             let first = this.playlist.add(uris);
-            if mode != OpenMode::Restore && this.playlist.len() > 1 {
+            // В узком окне панель перекрыла бы плеер — там открывают вручную
+            if mode != OpenMode::Restore && this.playlist.len() > 1 && !this.split.is_collapsed() {
                 this.split.set_show_sidebar(true);
             }
             let start = (first + current.unwrap_or(0)).min(this.playlist.len() - 1);
