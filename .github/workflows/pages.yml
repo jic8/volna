@@ -1,0 +1,91 @@
+name: Pages
+
+# Отдельный workflow: окружение github-pages разрешает деплой только с main,
+# а запуск по workflow_run всегда идёт от ветки по умолчанию — в т.ч. после релиза.
+on:
+  workflow_run:
+    workflows: [Flatpak]
+    types: [completed]
+  push:
+    branches: [main]
+    paths: ["docs/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  APP_ID: io.github.jic8.Volna
+  BRANCH: stable
+  BUNDLE: Volna.flatpak
+  SITE_URL: https://jic8.github.io/volna
+
+jobs:
+  pages:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install flatpak
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak ostree
+
+      - name: Import signing key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.FLATPAK_GPG_PRIVATE_KEY }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          KEY_ID=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec/ {print $5; exit}')
+          echo "KEY_ID=$KEY_ID" >> "$GITHUB_ENV"
+          echo "GPG_PUB=$(gpg --export "$KEY_ID" | base64 -w0)" >> "$GITHUB_ENV"
+
+      - name: Build site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp -r docs _site
+          gh release download -R "$GITHUB_REPOSITORY" -p "$BUNDLE" || { echo "No release bundle yet, deploying docs only"; exit 0; }
+
+          ostree init --mode=archive-z2 --repo=_site/repo
+          flatpak build-import-bundle --gpg-sign="$KEY_ID" _site/repo "$BUNDLE"
+          flatpak build-update-repo --gpg-sign="$KEY_ID" --title=Volna \
+            --default-branch="$BRANCH" --generate-static-deltas --prune _site/repo
+
+          cat > _site/volna.flatpakrepo <<EOF
+          [Flatpak Repo]
+          Title=Volna
+          Url=$SITE_URL/repo/
+          Homepage=$SITE_URL/
+          Icon=$SITE_URL/icon.svg
+          GPGKey=$GPG_PUB
+          EOF
+
+          cat > _site/volna.flatpakref <<EOF
+          [Flatpak Ref]
+          Name=$APP_ID
+          Branch=$BRANCH
+          Title=Volna
+          Url=$SITE_URL/repo/
+          SuggestRemoteName=volna
+          RuntimeRepo=https://dl.flathub.org/repo/flathub.flatpakrepo
+          IsRuntime=false
+          GPGKey=$GPG_PUB
+          EOF
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+      - id: deploy
+        uses: actions/deploy-pages@v5
