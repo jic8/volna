@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/io/github/jic8/Volna">
+    <file>icons/scalable/actions/playlist-repeat-symbolic.svg</file>
+    <file>icons/scalable/actions/playlist-repeat-track-symbolic.svg</file>
     <file>icons/scalable/actions/skip-backward-10-symbolic.svg</file>
     <file>icons/scalable/actions/skip-forward-10-symbolic.svg</file>
     <file>icons/scalable/actions/speedometer-symbolic.svg</file>

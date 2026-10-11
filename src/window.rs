@@ -11,7 +11,7 @@ use gtk::{gdk, gio, glib};
 
 use crate::mpris::{self, Mpris};
 use crate::player::{self, Player};
-use crate::playlist::{self, Playlist, format_duration as format_time};
+use crate::playlist::{self, Playlist, Repeat, format_duration as format_time};
 use crate::waveform::{self, Waveform};
 
 const RATES: [f64; 6] = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
@@ -40,6 +40,7 @@ pub struct Window {
     duration_label: gtk::Label,
     play_button: gtk::Button,
     rate_label: gtk::Label,
+    repeat_button: gtk::Button,
     volume_button: gtk::MenuButton,
     volume_scale: gtk::Scale,
     player: Player,
@@ -155,6 +156,12 @@ impl Window {
             transport.append(b);
         }
 
+        // Повтор
+        let repeat_button = gtk::Button::builder()
+            .action_name("win.cycle-repeat")
+            .css_classes(["flat"])
+            .build();
+
         // Громкость
         let volume_scale = gtk::Scale::with_range(gtk::Orientation::Vertical, 0.0, 1.0, 0.01);
         volume_scale.set_inverted(true);
@@ -167,11 +174,15 @@ impl Window {
             .css_classes(["flat"])
             .build();
 
+        let end_buttons = gtk::Box::new(gtk::Orientation::Horizontal, 6);
+        end_buttons.append(&repeat_button);
+        end_buttons.append(&volume_button);
+
         let controls = gtk::CenterBox::new();
         controls.set_start_widget(Some(&rate_button));
         controls.set_center_widget(Some(&transport));
-        controls.set_end_widget(Some(&volume_button));
-        for w in [rate_button.upcast_ref::<gtk::Widget>(), volume_button.upcast_ref()] {
+        controls.set_end_widget(Some(&end_buttons));
+        for w in [rate_button.upcast_ref::<gtk::Widget>(), end_buttons.upcast_ref()] {
             w.set_valign(gtk::Align::Center);
         }
 
@@ -231,6 +242,7 @@ impl Window {
             duration_label,
             play_button,
             rate_label,
+            repeat_button,
             volume_button,
             volume_scale: volume_scale.clone(),
             player: Player::new(),
@@ -246,7 +258,7 @@ impl Window {
         this.setup_rates(&rate_list, &rate_popover);
         this.setup_signals(&volume_scale);
         this.setup_mpris(app);
-        this.update_actions();
+        this.set_repeat(Repeat::Off);
         this
     }
 
@@ -283,6 +295,34 @@ impl Window {
         self.player.set_rate(rate);
         self.rate_label.set_label(&format_rate(rate));
         self.notify_mpris(&["Rate"]);
+    }
+
+    fn set_repeat(&self, repeat: Repeat) {
+        self.playlist.set_repeat(repeat);
+        let (icon, tooltip) = match repeat {
+            Repeat::Off => ("playlist-repeat-symbolic", gettext("Repeat Off")),
+            Repeat::Playlist => ("playlist-repeat-symbolic", gettext("Repeat Playlist")),
+            Repeat::Track => ("playlist-repeat-track-symbolic", gettext("Repeat Track")),
+        };
+        self.repeat_button.set_icon_name(icon);
+        self.repeat_button.set_tooltip_text(Some(&tooltip));
+        if repeat == Repeat::Off {
+            self.repeat_button.remove_css_class("accent");
+            self.repeat_button.add_css_class("dim-label");
+        } else {
+            self.repeat_button.remove_css_class("dim-label");
+            self.repeat_button.add_css_class("accent");
+        }
+        self.update_actions();
+        self.notify_mpris(&["LoopStatus"]);
+    }
+
+    fn cycle_repeat(&self) {
+        self.set_repeat(match self.playlist.repeat() {
+            Repeat::Off => Repeat::Playlist,
+            Repeat::Playlist => Repeat::Track,
+            Repeat::Track => Repeat::Off,
+        });
     }
 
     pub fn present(&self) {
@@ -544,6 +584,7 @@ impl Window {
             action("previous", |this| this.previous()),
             action("seek-backward", |this| this.skip(false)),
             action("seek-forward", |this| this.skip(true)),
+            action("cycle-repeat", |this| this.cycle_repeat()),
         ]);
     }
 
@@ -650,6 +691,9 @@ impl Window {
                 self.playing.set(playing);
                 self.notify_mpris(&["PlaybackStatus"]);
             }
+            Event::Eos if self.playlist.repeat() == Repeat::Track => {
+                self.seek_to(gst::ClockTime::ZERO);
+            }
             Event::Eos => match self.playlist.next_index() {
                 Some(i) => self.play_index(i, true),
                 None => {
@@ -736,6 +780,10 @@ impl mpris::Backend for Window {
         self.rate.get()
     }
 
+    fn repeat(&self) -> Repeat {
+        self.playlist.repeat()
+    }
+
     fn can_go_next(&self) -> bool {
         self.playlist.current().is_some() && self.playlist.next_index().is_some()
     }
@@ -781,6 +829,7 @@ impl mpris::Backend for Window {
             Command::OpenUri(uri) => self.open_uris(vec![uri], OpenMode::Replace),
             Command::SetVolume(v) => self.volume_scale.set_value(v),
             Command::SetRate(rate) => self.set_rate(rate),
+            Command::SetRepeat(repeat) => self.set_repeat(repeat),
         }
     }
 }

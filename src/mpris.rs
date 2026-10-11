@@ -6,6 +6,8 @@ use std::rc::{Rc, Weak};
 use gtk::prelude::*;
 use gtk::{gio, glib};
 
+use crate::playlist::Repeat;
+
 const BUS_NAME: &str = "org.mpris.MediaPlayer2.Volna";
 const OBJECT_PATH: &str = "/org/mpris/MediaPlayer2";
 const ROOT_IFACE: &str = "org.mpris.MediaPlayer2";
@@ -50,6 +52,7 @@ const INTROSPECTION: &str = r#"
     </signal>
     <property name="PlaybackStatus" type="s" access="read"/>
     <property name="Rate" type="d" access="readwrite"/>
+    <property name="LoopStatus" type="s" access="readwrite"/>
     <property name="Metadata" type="a{sv}" access="read"/>
     <property name="Volume" type="d" access="readwrite"/>
     <property name="Position" type="x" access="read"/>
@@ -101,6 +104,7 @@ pub enum Command {
     OpenUri(String),
     SetVolume(f64),
     SetRate(f64),
+    SetRepeat(Repeat),
 }
 
 /// Состояние плеера и обработка команд — реализует окно.
@@ -110,6 +114,7 @@ pub trait Backend {
     fn position(&self) -> gst::ClockTime;
     fn volume(&self) -> f64;
     fn rate(&self) -> f64;
+    fn repeat(&self) -> Repeat;
     fn can_go_next(&self) -> bool;
     fn can_go_previous(&self) -> bool;
     fn command(self: Rc<Self>, command: Command);
@@ -144,14 +149,16 @@ impl Mpris {
                     None => default_value(property),
                 })
                 .set_property(move |_, _, _, _, property, value| {
-                    let (Some(backend), Some(v)) = (b_set.upgrade(), value.get::<f64>()) else {
-                        return false;
-                    };
-                    match property {
-                        "Volume" => backend.command(Command::SetVolume(v.clamp(0.0, 1.0))),
-                        "Rate" if v > 0.0 => backend.command(Command::SetRate(v.clamp(MIN_RATE, MAX_RATE))),
+                    let Some(backend) = b_set.upgrade() else { return false };
+                    let command = match (property, value.get::<f64>(), value.str()) {
+                        ("Volume", Some(v), _) => Command::SetVolume(v.clamp(0.0, 1.0)),
+                        ("Rate", Some(v), _) if v > 0.0 => Command::SetRate(v.clamp(MIN_RATE, MAX_RATE)),
+                        ("LoopStatus", _, Some("None")) => Command::SetRepeat(Repeat::Off),
+                        ("LoopStatus", _, Some("Playlist")) => Command::SetRepeat(Repeat::Playlist),
+                        ("LoopStatus", _, Some("Track")) => Command::SetRepeat(Repeat::Track),
                         _ => return false,
-                    }
+                    };
+                    backend.command(command);
                     true
                 })
                 .build()?;
@@ -264,6 +271,12 @@ fn property_value(backend: &dyn Backend, property: &str) -> glib::Variant {
         }
         .to_variant(),
         "Rate" => backend.rate().to_variant(),
+        "LoopStatus" => match backend.repeat() {
+            Repeat::Off => "None",
+            Repeat::Playlist => "Playlist",
+            Repeat::Track => "Track",
+        }
+        .to_variant(),
         "MinimumRate" => MIN_RATE.to_variant(),
         "MaximumRate" => MAX_RATE.to_variant(),
         "Volume" => backend.volume().to_variant(),
@@ -280,6 +293,7 @@ fn default_value(property: &str) -> glib::Variant {
     match property {
         "Metadata" => metadata(None),
         "PlaybackStatus" => "Stopped".to_variant(),
+        "LoopStatus" => "None".to_variant(),
         "Position" => 0i64.to_variant(),
         "Rate" | "Volume" | "MinimumRate" | "MaximumRate" => 1.0f64.to_variant(),
         _ => false.to_variant(),

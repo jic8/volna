@@ -54,6 +54,7 @@ fn main() -> glib::ExitCode {
         app.set_accels_for_action("win.next", &["<Control>Right"]);
         app.set_accels_for_action("win.add-files", &["<Control><Shift>o"]);
         app.set_accels_for_action("win.show-playlist", &["F9"]);
+        app.set_accels_for_action("win.cycle-repeat", &["<Control>r"]);
         app.set_accels_for_action("window.close", &["<Control>w"]);
     });
 

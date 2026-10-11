@@ -17,6 +17,16 @@ pub enum Event {
     Remove(usize),
 }
 
+#[derive(Clone, Copy, PartialEq, Default)]
+pub enum Repeat {
+    #[default]
+    Off,
+    /// После последнего трека — снова первый
+    Playlist,
+    /// Текущий трек по кругу
+    Track,
+}
+
 #[derive(Clone)]
 pub struct TrackInfo {
     pub id: u64,
@@ -49,6 +59,7 @@ pub struct Playlist {
     summary: adw::WindowTitle,
     tracks: RefCell<Vec<Track>>,
     current: Cell<Option<usize>>,
+    repeat: Cell<Repeat>,
     next_id: Cell<u64>,
     discover: mpsc::Sender<(u64, String)>,
     handler: RefCell<Option<Box<dyn Fn(Event)>>>,
@@ -111,6 +122,7 @@ impl Playlist {
             summary,
             tracks: RefCell::new(Vec::new()),
             current: Cell::new(None),
+            repeat: Cell::new(Repeat::Off),
             next_id: Cell::new(0),
             discover,
             handler: RefCell::new(None),
@@ -165,13 +177,31 @@ impl Playlist {
         self.current.get()
     }
 
+    pub fn repeat(&self) -> Repeat {
+        self.repeat.get()
+    }
+
+    pub fn set_repeat(&self, repeat: Repeat) {
+        self.repeat.set(repeat);
+    }
+
+    /// При повторе плейлиста за последним треком идёт первый.
     pub fn next_index(&self) -> Option<usize> {
         let next = self.current.get().map_or(0, |i| i + 1);
-        (next < self.len()).then_some(next)
+        match self.repeat.get() {
+            _ if next < self.len() => Some(next),
+            Repeat::Playlist if !self.is_empty() => Some(0),
+            _ => None,
+        }
     }
 
     pub fn prev_index(&self) -> Option<usize> {
-        self.current.get().and_then(|i| i.checked_sub(1))
+        let current = self.current.get()?;
+        match self.repeat.get() {
+            _ if current > 0 => Some(current - 1),
+            Repeat::Playlist => self.len().checked_sub(1),
+            _ => None,
+        }
     }
 
     pub fn set_current(&self, index: Option<usize>) {

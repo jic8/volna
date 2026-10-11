@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: volna\n"
 "Report-Msgid-Bugs-To: https://github.com/jic8/volna/issues\n"
-"POT-Creation-Date: 2026-10-10 21:40+0300\n"
+"POT-Creation-Date: 2026-10-11 09:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,162 +18,172 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/playlist.rs:59 src/window.rs:82
+#: src/playlist.rs:70 src/window.rs:89
 msgid "Playlist"
 msgstr ""
 
-#: src/playlist.rs:62 src/window.rs:65
+#: src/playlist.rs:73 src/window.rs:72
 msgid "Add Files…"
 msgstr ""
 
-#: src/playlist.rs:63 src/window.rs:66
+#: src/playlist.rs:74 src/window.rs:73
 msgid "Add Folder…"
 msgstr ""
 
-#: src/playlist.rs:67
+#: src/playlist.rs:78
 msgid "Add"
 msgstr ""
 
-#: src/playlist.rs:71
+#: src/playlist.rs:82
 msgid "Open Playlist…"
 msgstr ""
 
-#: src/playlist.rs:72 src/window.rs:69
+#: src/playlist.rs:83 src/window.rs:76
 msgid "Save Playlist…"
 msgstr ""
 
-#: src/playlist.rs:73
+#: src/playlist.rs:84
 msgid "Clear"
 msgstr ""
 
-#: src/playlist.rs:77
+#: src/playlist.rs:88
 msgid "Playlist Menu"
 msgstr ""
 
-#: src/playlist.rs:92
+#: src/playlist.rs:103
 msgid "Playlist Is Empty"
 msgstr ""
 
-#: src/playlist.rs:93
+#: src/playlist.rs:104
 msgid "Add files or drop them into the window"
 msgstr ""
 
-#: src/playlist.rs:279
+#: src/playlist.rs:309
 msgid "Remove From Playlist"
 msgstr ""
 
-#: src/playlist.rs:344
-#, rust-format
+#: src/playlist.rs:378
 msgid "{} track"
 msgid_plural "{} tracks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/window.rs:52 src/main.rs:22
+#: src/window.rs:59 src/main.rs:26
 msgid "Volna"
 msgstr ""
 
-#: src/window.rs:61
+#: src/window.rs:68
 msgid "Open Files…"
 msgstr ""
 
-#: src/window.rs:62
+#: src/window.rs:69
 msgid "Open Folder…"
 msgstr ""
 
-#: src/window.rs:72
+#: src/window.rs:79
 msgid "_About Volna"
 msgstr ""
 
-#: src/window.rs:77
+#: src/window.rs:84
 msgid "Main Menu"
 msgstr ""
 
-#: src/window.rs:96 src/window.rs:406
+#: src/window.rs:103 src/window.rs:512
 msgid "Open Files"
 msgstr ""
 
-#: src/window.rs:103
+#: src/window.rs:110
 msgid "Open Folder"
 msgstr ""
 
-#: src/window.rs:110
+#: src/window.rs:117
 msgid "No Tracks"
 msgstr ""
 
-#: src/window.rs:111
+#: src/window.rs:118
 msgid "Open files or a folder, or drop them into the window"
 msgstr ""
 
-#: src/window.rs:133
+#: src/window.rs:140
 msgid "Playback Speed"
 msgstr ""
 
-#: src/window.rs:138
+#: src/window.rs:145
 msgid "Previous Track"
 msgstr ""
 
-#: src/window.rs:139
+#: src/window.rs:146
 msgid "Back 10 Seconds"
 msgstr ""
 
-#: src/window.rs:141 src/window.rs:580
+#: src/window.rs:148 src/window.rs:687
 msgid "Play"
 msgstr ""
 
-#: src/window.rs:143
+#: src/window.rs:150
 msgid "Forward 10 Seconds"
 msgstr ""
 
-#: src/window.rs:145
+#: src/window.rs:152
 msgid "Next Track"
 msgstr ""
 
-#: src/window.rs:160
+#: src/window.rs:173
 msgid "Volume"
 msgstr ""
 
-#: src/window.rs:283
+#: src/window.rs:303
+msgid "Repeat Off"
+msgstr ""
+
+#: src/window.rs:304
+msgid "Repeat Playlist"
+msgstr ""
+
+#: src/window.rs:305
+msgid "Repeat Track"
+msgstr ""
+
+#: src/window.rs:370
 msgid "No audio files found"
 msgstr ""
 
-#: src/window.rs:389
+#: src/window.rs:495
 msgid "Audio and Playlists"
 msgstr ""
 
-#: src/window.rs:404
+#: src/window.rs:510
 msgid "Add Files"
 msgstr ""
 
-#: src/window.rs:425
+#: src/window.rs:531
 msgid "Choose a Music Folder"
 msgstr ""
 
-#: src/window.rs:439
+#: src/window.rs:545
 msgid "Save Playlist"
 msgstr ""
 
-#: src/window.rs:440
+#: src/window.rs:546
 msgid "Playlist.m3u"
 msgstr ""
 
-#: src/window.rs:450
+#: src/window.rs:556
 msgid "Playlist saved"
 msgstr ""
 
-#: src/window.rs:451
-#, rust-format
+#: src/window.rs:557
 msgid "Could not save playlist: {}"
 msgstr ""
 
-#: src/window.rs:452
+#: src/window.rs:558
 msgid "Playlists can only be saved to a local folder"
 msgstr ""
 
-#: src/window.rs:578
+#: src/window.rs:685
 msgid "Pause"
 msgstr ""
 
-#: src/main.rs:82
+#: src/main.rs:103
 msgid "translator-credits"
 msgstr ""
