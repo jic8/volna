@@ -63,6 +63,11 @@
   </provides>
 
   <releases>
+    <release version="0.3.0" date="2026-10-12">
+      <description>
+        <p>Delete tracks from disk: right-click a track and choose Move to Trash. If the trash is not available, the file can be deleted permanently after confirmation.</p>
+      </description>
+    </release>
     <release version="0.2.0" date="2026-10-11">
       <description>
         <p>Repeat the playlist or the current track. Toggle it with the button next to the volume or Ctrl+R; media controls can change it too.</p>
