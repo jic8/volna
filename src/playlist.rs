@@ -5,7 +5,7 @@ use std::sync::mpsc;
 
 use adw::prelude::*;
 use gettextrs::{gettext, ngettext};
-use gtk::{gio, glib};
+use gtk::{gdk, gio, glib};
 
 const AUDIO_EXTENSIONS: &[&str] = &[
     "mp3", "flac", "ogg", "oga", "opus", "m4a", "aac", "wav", "wma", "ape", "wv", "mka", "aiff", "aif",
@@ -15,6 +15,8 @@ const CURRENT_MARKER: &str = "#PLAYER-CURRENT:";
 pub enum Event {
     Activate(usize),
     Remove(usize),
+    /// Удалить файл трека с диска
+    Trash(usize),
 }
 
 #[derive(Clone, Copy, PartialEq, Default)]
@@ -169,6 +171,10 @@ impl Playlist {
         self.len() == 0
     }
 
+    pub fn index_of(&self, id: u64) -> Option<usize> {
+        self.tracks.borrow().iter().position(|t| t.info.id == id)
+    }
+
     pub fn get(&self, i: usize) -> Option<TrackInfo> {
         self.tracks.borrow().get(i).map(|t| t.info.clone())
     }
@@ -318,16 +324,61 @@ impl Playlist {
         content.append(&remove_button);
         let row = gtk::ListBoxRow::builder().child(&content).build();
 
-        let weak = Rc::downgrade(self);
-        remove_button.connect_clicked(glib::clone!(
-            #[weak]
-            row,
-            move |_| {
-                if let (Some(this), Ok(i)) = (weak.upgrade(), usize::try_from(row.index())) {
-                    this.emit(Event::Remove(i));
+        let emit = {
+            let weak = Rc::downgrade(self);
+            let row = row.downgrade();
+            move |event: fn(usize) -> Event| {
+                let (Some(this), Some(row)) = (weak.upgrade(), row.upgrade()) else { return };
+                if let Ok(i) = usize::try_from(row.index()) {
+                    this.emit(event(i));
                 }
             }
+        };
+        remove_button.connect_clicked({
+            let emit = emit.clone();
+            move |_| emit(Event::Remove)
+        });
+
+        // Контекстное меню строки
+        let actions = gio::SimpleActionGroup::new();
+        let remove_action = gio::SimpleAction::new("remove", None);
+        remove_action.connect_activate({
+            let emit = emit.clone();
+            move |_, _| emit(Event::Remove)
+        });
+        let trash_action = gio::SimpleAction::new("trash", None);
+        trash_action.set_enabled(gio::File::for_uri(&uri).path().is_some());
+        trash_action.connect_activate(move |_, _| emit(Event::Trash));
+        actions.add_action(&remove_action);
+        actions.add_action(&trash_action);
+        row.insert_action_group("track", Some(&actions));
+
+        let menu = gio::Menu::new();
+        menu.append(Some(&gettext("Remove From Playlist")), Some("track.remove"));
+        menu.append(Some(&gettext("Move to Trash")), Some("track.trash"));
+        let popover = gtk::PopoverMenu::builder()
+            .menu_model(&menu)
+            .has_arrow(false)
+            .halign(gtk::Align::Start)
+            .build();
+        popover.set_parent(&row);
+        row.connect_destroy(glib::clone!(
+            #[weak]
+            popover,
+            move |_| popover.unparent()
         ));
+        let click = gtk::GestureClick::builder()
+            .button(gdk::BUTTON_SECONDARY)
+            .build();
+        click.connect_pressed(glib::clone!(
+            #[weak]
+            popover,
+            move |_, _, x, y| {
+                popover.set_pointing_to(Some(&gdk::Rectangle::new(x as i32, y as i32, 1, 1)));
+                popover.popup();
+            }
+        ));
+        row.add_controller(click);
 
         Track {
             info: TrackInfo {

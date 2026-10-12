@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: volna\n"
 "Report-Msgid-Bugs-To: https://github.com/jic8/volna/issues\n"
-"POT-Creation-Date: 2026-10-11 09:01+0300\n"
+"POT-Creation-Date: 2026-10-12 19:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,51 +18,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/playlist.rs:70 src/window.rs:89
+#: src/playlist.rs:72 src/window.rs:89
 msgid "Playlist"
 msgstr ""
 
-#: src/playlist.rs:73 src/window.rs:72
+#: src/playlist.rs:75 src/window.rs:72
 msgid "Add Files…"
 msgstr ""
 
-#: src/playlist.rs:74 src/window.rs:73
+#: src/playlist.rs:76 src/window.rs:73
 msgid "Add Folder…"
 msgstr ""
 
-#: src/playlist.rs:78
+#: src/playlist.rs:80
 msgid "Add"
 msgstr ""
 
-#: src/playlist.rs:82
+#: src/playlist.rs:84
 msgid "Open Playlist…"
 msgstr ""
 
-#: src/playlist.rs:83 src/window.rs:76
+#: src/playlist.rs:85 src/window.rs:76
 msgid "Save Playlist…"
 msgstr ""
 
-#: src/playlist.rs:84
+#: src/playlist.rs:86
 msgid "Clear"
 msgstr ""
 
-#: src/playlist.rs:88
+#: src/playlist.rs:90
 msgid "Playlist Menu"
 msgstr ""
 
-#: src/playlist.rs:103
+#: src/playlist.rs:105
 msgid "Playlist Is Empty"
 msgstr ""
 
-#: src/playlist.rs:104
+#: src/playlist.rs:106
 msgid "Add files or drop them into the window"
 msgstr ""
 
-#: src/playlist.rs:309
+#: src/playlist.rs:315 src/playlist.rs:357
 msgid "Remove From Playlist"
 msgstr ""
 
-#: src/playlist.rs:378
+#: src/playlist.rs:358
+msgid "Move to Trash"
+msgstr ""
+
+#: src/playlist.rs:429
 msgid "{} track"
 msgid_plural "{} tracks"
 msgstr[0] ""
@@ -182,6 +186,34 @@ msgstr ""
 
 #: src/window.rs:685
 msgid "Pause"
+msgstr ""
+
+#: src/window.rs:752
+msgid "File deleted"
+msgstr ""
+
+#: src/window.rs:754
+msgid "File moved to trash"
+msgstr ""
+
+#: src/window.rs:763
+msgid "Could not delete file: {}"
+msgstr ""
+
+#: src/window.rs:774
+msgid "Delete File Permanently?"
+msgstr ""
+
+#: src/window.rs:775
+msgid "Trash is not available here. “{}” will be deleted permanently."
+msgstr ""
+
+#: src/window.rs:777
+msgid "Cancel"
+msgstr ""
+
+#: src/window.rs:777
+msgid "Delete"
 msgstr ""
 
 #: src/main.rs:103

@@ -718,19 +718,67 @@ impl Window {
 
         match event {
             Event::Activate(i) => self.play_index(i, true),
-            Event::Remove(i) => {
-                let was_current = self.playlist.current() == Some(i);
-                let was_playing = self.player.is_playing();
-                self.playlist.remove(i);
-                if was_current {
-                    match self.playlist.len() {
-                        0 => self.clear_playlist(),
-                        len => self.play_index(i.min(len - 1), was_playing),
-                    }
-                }
-                self.update_actions();
+            Event::Remove(i) => self.remove_track(i),
+            Event::Trash(i) => self.trash_track(i),
+        }
+    }
+
+    fn remove_track(self: &Rc<Self>, i: usize) {
+        let was_current = self.playlist.current() == Some(i);
+        let was_playing = self.player.is_playing();
+        self.playlist.remove(i);
+        if was_current {
+            match self.playlist.len() {
+                0 => self.clear_playlist(),
+                len => self.play_index(i.min(len - 1), was_playing),
             }
         }
+        self.update_actions();
+    }
+
+    /// Отправляет файл трека в корзину; если корзины нет — предлагает удалить насовсем.
+    fn trash_track(self: &Rc<Self>, i: usize) {
+        let Some(track) = self.playlist.get(i) else { return };
+        let file = gio::File::for_uri(&track.uri);
+        let weak = Rc::downgrade(self);
+        glib::spawn_future_local(async move {
+            let result = file.trash_future(glib::Priority::DEFAULT).await;
+            let Some(this) = weak.upgrade() else { return };
+            let result = match result {
+                Err(err) if err.matches(gio::IOErrorEnum::NotSupported) => {
+                    if !this.confirm_delete(&file).await {
+                        return;
+                    }
+                    file.delete_future(glib::Priority::DEFAULT).await.map(|()| gettext("File deleted"))
+                }
+                result => result.map(|()| gettext("File moved to trash")),
+            };
+            let message = match result {
+                Ok(message) => {
+                    if let Some(i) = this.playlist.index_of(track.id) {
+                        this.remove_track(i);
+                    }
+                    message
+                }
+                Err(err) => gettext("Could not delete file: {}").replace("{}", err.message()),
+            };
+            this.toasts.add_toast(adw::Toast::new(&message));
+        });
+    }
+
+    async fn confirm_delete(&self, file: &gio::File) -> bool {
+        let name = file
+            .basename()
+            .map_or_else(|| file.uri().to_string(), |p| p.to_string_lossy().into_owned());
+        let dialog = adw::AlertDialog::new(
+            Some(&gettext("Delete File Permanently?")),
+            Some(&gettext("Trash is not available here. “{}” will be deleted permanently.").replace("{}", &name)),
+        );
+        dialog.add_responses(&[("cancel", &gettext("Cancel")), ("delete", &gettext("Delete"))]);
+        dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
+        dialog.set_default_response(Some("cancel"));
+        dialog.set_close_response("cancel");
+        dialog.choose_future(Some(&self.window)).await == "delete"
     }
 
     fn tick(&self) {

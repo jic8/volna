@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: volna\n"
 "Report-Msgid-Bugs-To: https://github.com/jic8/volna/issues\n"
-"POT-Creation-Date: 2026-10-11 09:01+0300\n"
+"POT-Creation-Date: 2026-10-12 19:59+0300\n"
 "PO-Revision-Date: 2026-10-10 21:40+0300\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -19,51 +19,55 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/playlist.rs:70 src/window.rs:89
+#: src/playlist.rs:72 src/window.rs:89
 msgid "Playlist"
 msgstr "Плейлист"
 
-#: src/playlist.rs:73 src/window.rs:72
+#: src/playlist.rs:75 src/window.rs:72
 msgid "Add Files…"
 msgstr "Добавить файлы…"
 
-#: src/playlist.rs:74 src/window.rs:73
+#: src/playlist.rs:76 src/window.rs:73
 msgid "Add Folder…"
 msgstr "Добавить папку…"
 
-#: src/playlist.rs:78
+#: src/playlist.rs:80
 msgid "Add"
 msgstr "Добавить"
 
-#: src/playlist.rs:82
+#: src/playlist.rs:84
 msgid "Open Playlist…"
 msgstr "Открыть плейлист…"
 
-#: src/playlist.rs:83 src/window.rs:76
+#: src/playlist.rs:85 src/window.rs:76
 msgid "Save Playlist…"
 msgstr "Сохранить плейлист…"
 
-#: src/playlist.rs:84
+#: src/playlist.rs:86
 msgid "Clear"
 msgstr "Очистить"
 
-#: src/playlist.rs:88
+#: src/playlist.rs:90
 msgid "Playlist Menu"
 msgstr "Меню плейлиста"
 
-#: src/playlist.rs:103
+#: src/playlist.rs:105
 msgid "Playlist Is Empty"
 msgstr "Плейлист пуст"
 
-#: src/playlist.rs:104
+#: src/playlist.rs:106
 msgid "Add files or drop them into the window"
 msgstr "Добавьте файлы или перетащите их в окно"
 
-#: src/playlist.rs:309
+#: src/playlist.rs:315 src/playlist.rs:357
 msgid "Remove From Playlist"
 msgstr "Убрать из плейлиста"
 
-#: src/playlist.rs:378
+#: src/playlist.rs:358
+msgid "Move to Trash"
+msgstr "Переместить в корзину"
+
+#: src/playlist.rs:429
 msgid "{} track"
 msgid_plural "{} tracks"
 msgstr[0] "{} трек"
@@ -185,6 +189,34 @@ msgstr "Плейлист можно сохранить только в лока�
 #: src/window.rs:685
 msgid "Pause"
 msgstr "Пауза"
+
+#: src/window.rs:752
+msgid "File deleted"
+msgstr "Файл удалён"
+
+#: src/window.rs:754
+msgid "File moved to trash"
+msgstr "Файл перемещён в корзину"
+
+#: src/window.rs:763
+msgid "Could not delete file: {}"
+msgstr "Не удалось удалить файл: {}"
+
+#: src/window.rs:774
+msgid "Delete File Permanently?"
+msgstr "Удалить файл навсегда?"
+
+#: src/window.rs:775
+msgid "Trash is not available here. “{}” will be deleted permanently."
+msgstr "Корзина здесь недоступна. «{}» будет удалён безвозвратно."
+
+#: src/window.rs:777
+msgid "Cancel"
+msgstr "Отмена"
+
+#: src/window.rs:777
+msgid "Delete"
+msgstr "Удалить"
 
 #: src/main.rs:103
 msgid "translator-credits"
