@@ -63,6 +63,11 @@
   </provides>
 
   <releases>
+    <release version="0.3.1" date="2026-10-12">
+      <description>
+        <p>Fixed missing translations when installing from the Volna repository.</p>
+      </description>
+    </release>
     <release version="0.3.0" date="2026-10-12">
       <description>
         <p>Delete tracks from disk: right-click a track and choose Move to Trash. If the trash is not available, the file can be deleted permanently after confirmation.</p>
